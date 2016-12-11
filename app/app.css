@@ -1,0 +1,131 @@
+/* app css stylesheet */
+
+body {
+    min-width: 1024px;
+}
+
+h2 {
+    margin: 0 0 15px;
+}
+
+.clearfix:after {
+    clear: both;
+    content: '';
+    display: table;
+}
+
+.container {
+    padding: 20px;
+    margin: 0 auto;
+    width: 1024px;
+    box-sizing: border-box;
+}
+
+.header {
+    border-bottom: 2px solid #000000;
+}
+
+.navigation {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navigation > li {
+    display: inline;
+}
+
+.navigation > li + li:before {
+    content: '|';
+    padding-right: 0.3em;
+}
+
+.game-container {
+    display: table;
+}
+
+.game-area-container,
+.game-info-container {
+    display: table-cell;
+    vertical-align: top;
+}
+
+.game-rules-container {
+    padding-top: 40px;
+}
+
+.game-rules-toggle {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.game-rules-toggle:hover {
+    text-decoration: none;
+}
+
+.game-area-container {
+    width: 500px;
+    padding-right: 20px;
+}
+
+.game-info-container {
+    padding: 0 10px;
+}
+
+.form-row {
+    margin: 0 -10px;
+    padding-bottom: 20px;
+}
+
+.form-cell {
+    float: left;
+    width: 50%;
+    box-sizing: border-box;
+    padding: 0 10px 10px;
+}
+
+.error {
+    color: red;
+    font-size: 12px;
+    padding-top: 5px;
+}
+
+.form-row label {
+    display: block;
+}
+
+.form-row input {
+    padding: 10px;
+    margin-top: 5px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+
+table td,
+table th {
+    border: 1px solid #000000;
+}
+
+table td:first-child,
+table th {
+    padding: 5px;
+}
+
+.game-info .table {
+    display: table;
+    width: 100%;
+    text-align: center;
+}
+
+.game-info .table div {
+    display: table-cell;
+    width: 33.3333333%;
+    padding: 5px;
+    border-right: 1px solid black;
+    text-align: center;
+}
+
+.game-info .table div:last-child {
+    border-right: none;
+}

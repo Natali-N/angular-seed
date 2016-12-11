@@ -1,0 +1,38 @@
+<div class="game-area-container">
+    <canvas width="500" height="500" id="canvas" ng-click="$ctrl.calculatePoints($event)"></canvas>
+    <div class="game-rules-container">
+        <span ng-click="$ctrl.showRules = !$ctrl.showRules" class="game-rules-toggle">
+            <span ng-hide="$ctrl.showRules">Show</span><span ng-show="$ctrl.showRules">Hide</span> game rules
+        </span>
+        <div ng-show="$ctrl.showRules" class="game-rules">
+            <p>
+                Darts is a game whereby the player throws three darts per visit to the board with the
+                goal of reducing a fixed score 301 to zero ("checking out"), with the final dart landing in
+                either the bulls eye or a double segment.
+            </p>
+            <p>
+                A game of darts is generally contested between two players, who take turns. Each turn
+                consists of throwing three darts.
+            </p>
+            <p>
+                A throw that reduces a player's score below zero, to exactly one, or to zero but not ending with a
+                double is known as "going bust", with the player's score being reset to the value prior to starting the
+                turn, and the remainder of the turn being forfeited.
+            </p>
+            <p>
+                Hitting one of the large portions of each of the numbered sections, scores the points value of that section.
+            </p>
+            <p>
+                Hitting the thin inner portions of these sections scores triple the points value of that section.
+            </p>
+            <p>
+                Hitting the thin outer portions of these sections, scores double the points value of that section.
+            </p>
+            <p>
+                The central circle is divided into a green outer ring worth 25 points (known as "outer", "outer bull",
+                or "iris") and a red inner circle (usually known as "bull", "inner bull" or "double bull"), worth 50
+                points.
+            </p>
+        </div>
+    </div>
+</div>

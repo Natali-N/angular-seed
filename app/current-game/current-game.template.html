@@ -1,0 +1,109 @@
+<h1>Current game</h1>
+<div class="game-container">
+    <game-area></game-area>
+    <div class="game-info-container" >
+        <div ng-show="$ctrl.unfinishedGame && !$ctrl.showCurrentGameInfo">
+            <h3>
+                You have an unfinished game '{{$ctrl.unfinishedGameTitle}}'<br>
+                Would you like to continue?
+            </h3>
+            <button class="finish-game" ng-click="$ctrl.continuePlaying()">Yes</button>
+            <button class="delete-game" ng-click="$ctrl.deleteUnfinished()">No*</button>
+            <p>*Information about this game will be deleted</p>
+        </div>
+        <div ng-hide="$ctrl.unfinishedGame || $ctrl.showCurrentGameInfo" class="game-creation">
+            <h2>Game creation</h2>
+            <div class="form-row clearfix">
+                <div class="form-cell">
+                    <label>
+                        Game title
+                        <input type="text" ng-model="$ctrl.currentGame.title">
+                    </label>
+                    <div class="error" ng-show="$ctrl.gameTitleError">
+                        Game with such title is already exist
+                    </div>
+                </div>
+                <div class="form-cell">
+                    <label>
+                        Game type
+                        <input type="text" disabled ng-model="$ctrl.currentGame.type">
+                    </label>
+                </div>
+            </div>
+            <h2>
+                Players info
+            </h2>
+            <div class="form-row clearfix">
+                <div class="form-cell" ng-repeat="player in $ctrl.currentGame.players track by $index">
+                    <label>
+                        Player{{$index + 1}} name
+                        <input type="text" ng-model="$ctrl.currentGame.players[$index]" ng-disabled="!$last">
+                    </label>
+                </div>
+            </div>
+            <button class="add-player" ng-click="$ctrl.addPlayer()">Add a player</button>
+            <button class="create-game" ng-click="$ctrl.createNewGame()">Create game</button>
+            <div class="error" ng-show="$ctrl.playerNameError">
+                Player with such name already exists
+            </div>
+        </div>
+        <div ng-show="$ctrl.showCurrentGameInfo" class="game-info">
+            <h2>Game info</h2>
+            <table>
+                <tr>
+                    <th>Turn</th>
+                    <th ng-repeat="player in $ctrl.currentGamePlayers">
+                        {{player}}
+                    </th>
+                </tr>
+                <tr ng-repeat="turn in $ctrl.currentGame[$ctrl.currentGame.pointers.playerPointer]" ng-init="outerIndex = $index">
+                    <td>{{outerIndex + 1}}</td>
+                    <td ng-repeat="player in $ctrl.currentGamePlayers">
+                        <div class="table">
+                            <div ng-repeat="pointItem in $ctrl.currentGame[player][outerIndex] track by $index">
+                                {{pointItem}}
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        remainder
+                    </td>
+                    <td ng-repeat="player in $ctrl.currentGamePlayers">
+                        <div class="table">
+                            {{$ctrl.currentGame.remainder[player]}}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>best/worst throw</td>
+                    <td ng-repeat="player in $ctrl.currentGamePlayers">
+                        <div class="table">
+                            {{$ctrl.currentGame.bestThrow[player]}} / {{$ctrl.currentGame.worstThrow[player]}}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>best/worst precision</td>
+                    <td ng-repeat="player in $ctrl.currentGamePlayers">
+                        <div class="table">
+                            {{$ctrl.currentGame.bestPrecision[player]}} / {{$ctrl.currentGame.worstPrecision[player]}}
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div ng-show="$ctrl.gameOver">
+            <p>Game over!</p>
+            <p>Winner(s):</p>
+            <div>
+                <h4 ng-repeat="winner in $ctrl.currentGame.winners">
+                    {{winner}}
+                </h4>
+            </div>
+
+            <button class="add-game" ng-click="$ctrl.addGame()">Create new game</button>
+        </div>
+    </div>
+</div>

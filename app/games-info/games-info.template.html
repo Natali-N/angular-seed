@@ -1,0 +1,25 @@
+<h1>Games info</h1>
+<p ng-show="$ctrl.gameStatistics">No games statistic</p>
+<div class="games-info-container" ng-hide="$ctrl.gameStatistics">
+    <table>
+        <tr>
+            <th>player</th>
+            <th>games</th>
+            <th>winner</th>
+            <th>best throw</th>
+            <th>worst throw</th>
+            <th>best precision</th>
+            <th>worst precision</th>
+        </tr>
+        <tr ng-repeat="player in $ctrl.players">
+            <td>{{ player.name }}</td>
+            <td>{{ player.games }}</td>
+            <td>{{ player.winner }}</td>
+            <td>{{ player.bestThrow }}</td>
+            <td>{{ player.worstThrow }}</td>
+            <td>{{ player.bestPrecision }}</td>
+            <td>{{ player.worstPrecision }}</td>
+        </tr>
+    </table>
+</div>
+

@@ -7,9 +7,9 @@
 // @todo tests
 // @todo ng-init vs local variable in controller
 // @todo delete console log
-// @todo save throw check
 // @todo angular validation
 // @todo show notification if localstorage is disabled
+// @todo on games-info view fix styl issue
 angular.
     module('currentGame').
     component('currentGame', {
@@ -92,9 +92,9 @@ angular.
                     if (currentGame.title) {
                         games.forEach(function(item) {
                             if (currentGame.title === item.title) {
-                                self.gameTitleError = true;
+                                this.gameTitleError = true;
                             }
-                        });
+                        }, this);
 
                     } else {
                         this.gameTitleError = true;
@@ -142,12 +142,12 @@ angular.
 
                 function updatePointers() {
                     if (self.currentGame.pointers.throwPointer === 2) {
-
                         var playerPosInArray = self.currentGamePlayers.indexOf(self.currentGame.pointers.playerPointer);
+
                         if (playerPosInArray < self.currentGamePlayers.length-1) {
                             playerPosInArray++;
-                        } else {
 
+                        } else {
                             if(self.currentGame.winners.length) {
                                 self.currentGame.status = 1;
                                 self.gameOver = true;
@@ -158,14 +158,14 @@ angular.
                             playerPosInArray = 0;
                             self.currentGame.pointers.turnPointer++;
 
-                            for (var k=0; k<self.currentGame.players.length; k++) {
-                                var playerName = self.currentGame.players[k];
-                                self.currentGame[playerName].push([]);
-                            }
+                            self.currentGame.players.forEach(function(player) {
+                                self.currentGame[player].push([]);
+                            });
                         }
 
                         self.currentGame.pointers.playerPointer = self.currentGamePlayers[playerPosInArray];
                         self.currentGame.pointers.throwPointer = 0;
+
                     } else {
                         self.currentGame.pointers.throwPointer++;
                     }
@@ -231,9 +231,9 @@ angular.
                     if (partialRemainder < 2) {
                         var turn = currentGame[currentGamePointers.playerPointer][currentGamePointers.turnPointer];
 
-                        for (var i=0; i<turn.length;i++) {
-                            self.currentGame.remainder[currentGamePointers.playerPointer] +=turn[i];
-                        }
+                        turn.forEach(function(item) {
+                            self.currentGame.remainder[currentGamePointers.playerPointer] += item;
+                        });
 
                         turn[0] = 0;
                         turn[1] = 0;

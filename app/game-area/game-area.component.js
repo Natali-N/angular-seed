@@ -163,8 +163,6 @@ angular.
                         totalPoints = index;
                     }
 
-                    console.log(totalPoints);
-
                     this.parent.saveThrow(totalPoints, index);
                 };
             }

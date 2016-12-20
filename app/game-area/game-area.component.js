@@ -12,8 +12,7 @@ angular.
 
                 this.showRules = false;
 
-                var self = this,
-                    canvas = document.getElementById('canvas'),
+                var canvas = document.getElementById('canvas'),
                     ctx = canvas.getContext('2d');
 
                 ctx.fillStyle = 'beige';
@@ -64,7 +63,7 @@ angular.
                     ];
 
                 //creating game area
-                sectorsPointsData.forEach(function(item, i, arr) {
+                sectorsPointsData.forEach(function(item, i) {
                     var angle = prevAngle + sectorStandardAngle;
 
                     for (var k=sectorsLengthBreakPointsData.length - 1; k>=circleCenterAreasAmount; k--) {
@@ -166,7 +165,7 @@ angular.
 
                     console.log(totalPoints);
 
-                    self.parent.saveThrow(totalPoints, index);
+                    this.parent.saveThrow(totalPoints, index);
                 };
             }
         ]

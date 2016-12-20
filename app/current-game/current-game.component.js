@@ -9,6 +9,7 @@
 // @todo delete console log
 // @todo save throw check
 // @todo angular validation
+// @todo show notification if localstorage is disabled
 angular.
     module('currentGame').
     component('currentGame', {
@@ -89,7 +90,7 @@ angular.
                     savePlayerInfo(currentGame.players);
 
                     if (currentGame.title) {
-                        games.forEach(function(item, i, arr) {
+                        games.forEach(function(item) {
                             if (currentGame.title === item.title) {
                                 self.gameTitleError = true;
                             }
@@ -118,7 +119,7 @@ angular.
                             status: 0
                         };
 
-                        currentGame.players.forEach(function(player, i, arr) {
+                        currentGame.players.forEach(function(player) {
                             gameObj[player] = [ [] ];
                             gameObj.remainder[player] = currentGame.type;
                             gameObj.bestThrow[player] = 0;
@@ -150,6 +151,7 @@ angular.
                             if(self.currentGame.winners.length) {
                                 self.currentGame.status = 1;
                                 self.gameOver = true;
+                                self.disableGameArea = true;
                                 return;
                             }
 
@@ -204,13 +206,16 @@ angular.
                 }
 
                 function checkRemainder(points, doubleArea) {
-                    var partialRemainder = self.currentGame.remainder[self.currentGame.pointers.playerPointer] - points;
+                    var currentGame = self.currentGame,
+                        currentGamePointers = currentGame.pointers;
+
+                    var partialRemainder = currentGame.remainder[currentGamePointers.playerPointer] - points;
 
                     if (partialRemainder === 0 && doubleArea) {
-                        self.currentGame.winners.push(self.currentGame.pointers.playerPointer);
-                        self.currentGame[self.currentGame.pointers.playerPointer][self.currentGame.pointers.turnPointer][self.currentGame.pointers.throwPointer] = points;
+                        self.currentGame.winners.push(currentGamePointers.playerPointer);
+                        self.currentGame[currentGamePointers.playerPointer][currentGamePointers.turnPointer][currentGamePointers.throwPointer] = points;
 
-                        if (self.currentGame.pointers.throwPointer === 2) {
+                        if (currentGamePointers.throwPointer === 2) {
                             updatePrecision();
                         } else {
                             self.currentGame.pointers.throwPointer = 2;
@@ -220,11 +225,11 @@ angular.
                         return false;
                     }
 
-                    if (partialRemainder === 0 || partialRemainder < 2) {
-                        var turn = self.currentGame[self.currentGame.pointers.playerPointer][self.currentGame.pointers.turnPointer];
+                    if (partialRemainder < 2) {
+                        var turn = currentGame[currentGamePointers.playerPointer][currentGamePointers.turnPointer];
 
                         for (var i=0; i<turn.length;i++) {
-                            self.currentGame.remainder[self.currentGame.pointers.playerPointer] +=turn[i];
+                            self.currentGame.remainder[currentGamePointers.playerPointer] +=turn[i];
                         }
 
                         turn[0] = 0;
@@ -240,9 +245,11 @@ angular.
                 }
 
                 this.saveThrow = function(points, index) {
-                    var playerPointer = this.currentGame.pointers.playerPointer,
-                        turnPointer = this.currentGame.pointers.turnPointer,
-                        throwPointer = this.currentGame.pointers.throwPointer,
+                    var currentGame = this.currentGame,
+                        pointers = currentGame.pointers,
+                        playerPointer = pointers.playerPointer,
+                        turnPointer = pointers.turnPointer,
+                        throwPointer = pointers.throwPointer,
                         calculatePrecision = false,
                         doubleArea = false;
 
@@ -251,20 +258,20 @@ angular.
                     }
 
                     if ( checkRemainder(points, doubleArea) ) {
-                        this.currentGame[playerPointer][turnPointer][throwPointer] = points;
+                        currentGame[playerPointer][turnPointer][throwPointer] = points;
                         updateBestWorstRemainder(points);
                         calculatePrecision = true;
                     }
 
-                    if(calculatePrecision && self.currentGame.pointers.throwPointer === 2) {
+                    if(calculatePrecision && throwPointer === 2) {
                         updatePrecision();
                     }
 
                     updatePointers();
 
                     GamesService.set(
-                        this.currentGame.title,
-                        this.currentGame
+                        currentGame.title,
+                        currentGame
                     );
 
                     games = GamesService.getAll();

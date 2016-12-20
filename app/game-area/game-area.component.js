@@ -100,13 +100,13 @@ angular.
                 ctx.fillStyle = 'black';
 
                 //adding number captions
-                for (var q=0; q<sectorsPointsData.length; q++) {
+                sectorsPointsData.forEach(function(item) {
                     ctx.fillText(
-                        sectorsPointsData[q].basePoint,
-                        sectorsPointsData[q].positionLeft,
-                        sectorsPointsData[q].positionTop
+                        item.basePoint,
+                        item.positionLeft,
+                        item.positionTop
                     );
-                }
+                });
 
                 function radiusCheck(obj) {
                     return Math.pow((obj.positionLeft - 250), 2)  + Math.pow((obj.positionTop - 250), 2) <= Math.pow(obj.radius, 2);

@@ -172,19 +172,20 @@ angular.
                 }
 
                 function updateBestWorstRemainder(points) {
-
-                    var bestThrow = self.currentGame.bestThrow[self.currentGame.pointers.playerPointer];
-                    var worstThrow = self.currentGame.worstThrow[self.currentGame.pointers.playerPointer];
+                    var currentGame = self.currentGame,
+                        playerPointer = currentGame.pointers.playerPointer,
+                        bestThrow = currentGame.bestThrow[playerPointer],
+                        worstThrow = currentGame.worstThrow[playerPointer];
 
                     if (points > bestThrow) {
-                        self.currentGame.bestThrow[self.currentGame.pointers.playerPointer] = points;
+                        self.currentGame.bestThrow[playerPointer] = points;
                     }
 
                     if (points < worstThrow) {
-                        self.currentGame.worstThrow[self.currentGame.pointers.playerPointer] = points;
+                        self.currentGame.worstThrow[playerPointer] = points;
                     }
 
-                    self.currentGame.remainder[self.currentGame.pointers.playerPointer] -= points;
+                    self.currentGame.remainder[playerPointer] -= points;
                 }
 
                 function calculatePrecision(arr) {
@@ -192,16 +193,18 @@ angular.
                 }
 
                 function updatePrecision() {
-                    var completeTurn = self.currentGame[self.currentGame.pointers.playerPointer][self.currentGame.pointers.turnPointer],
-                        bestPrecision = self.currentGame.bestPrecision[self.currentGame.pointers.playerPointer],
-                        worstPrecision = self.currentGame.worstPrecision[self.currentGame.pointers.playerPointer];
+                    var currentGame = self.currentGame,
+                        playerPointer = currentGame.pointers.playerPointer,
+                        completeTurn = currentGame[playerPointer][currentGame.pointers.turnPointer],
+                        bestPrecision = currentGame.bestPrecision[playerPointer],
+                        worstPrecision = currentGame.worstPrecision[playerPointer];
 
                     if (!bestPrecision.length || calculatePrecision(completeTurn) < calculatePrecision(bestPrecision)) {
-                        self.currentGame.bestPrecision[self.currentGame.pointers.playerPointer] = completeTurn;
+                        self.currentGame.bestPrecision[playerPointer] = completeTurn;
                     }
 
                     if (!worstPrecision.length || calculatePrecision(completeTurn) > calculatePrecision(worstPrecision)) {
-                        self.currentGame.worstPrecision[self.currentGame.pointers.playerPointer] = completeTurn;
+                        self.currentGame.worstPrecision[playerPointer] = completeTurn;
                     }
                 }
 

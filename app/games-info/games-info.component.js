@@ -23,10 +23,10 @@ angular.
 
                     this.players = {};
 
-                    for (var i=0; i<games.length; i++) {
-                        if (games[i].status) {
-                            for (var k=0; k<games[i].players.length; k++) {
-                                var playerName = games[i].players[k];
+                    games.forEach(function(game) {
+                        if (game.status) {
+
+                            game.players.forEach(function(playerName) {
 
                                 if ( !(playerName in this.players)) {
                                     this.players[playerName] = {
@@ -39,40 +39,40 @@ angular.
                                         games: []
                                     };
 
-                                    this.players[playerName].bestThrow = games[i].bestThrow[playerName];
-                                    this.players[playerName].worstThrow = games[i].worstThrow[playerName];
-                                    this.players[playerName].bestPrecision = games[i].bestPrecision[playerName];
-                                    this.players[playerName].worstPrecision = games[i].worstPrecision[playerName];
+                                    this.players[playerName].bestThrow = game.bestThrow[playerName];
+                                    this.players[playerName].worstThrow = game.worstThrow[playerName];
+                                    this.players[playerName].bestPrecision = game.bestPrecision[playerName];
+                                    this.players[playerName].worstPrecision = game.worstPrecision[playerName];
 
                                 } else {
-                                    if (this.players[playerName].bestThrow > games[i].bestThrow[playerName]) {
-                                        this.players[playerName].bestThrow = games[i].bestThrow[playerName];
+                                    if (this.players[playerName].bestThrow > game.bestThrow[playerName]) {
+                                        this.players[playerName].bestThrow = game.bestThrow[playerName];
                                     }
 
-                                    if (this.players[playerName].worstThrow < games[i].worstThrow[playerName]) {
-                                        this.players[playerName].worstThrow = games[i].worstThrow[playerName];
+                                    if (this.players[playerName].worstThrow < game.worstThrow[playerName]) {
+                                        this.players[playerName].worstThrow = game.worstThrow[playerName];
                                     }
 
-                                    if (calculatePrecision(this.players[playerName].bestPrecision) < calculatePrecision(games[i].bestPrecision[playerName])) {
-                                        this.players[playerName].bestPrecision = games[i].bestPrecision[playerName];
+                                    if (calculatePrecision(this.players[playerName].bestPrecision) < calculatePrecision(game.bestPrecision[playerName])) {
+                                        this.players[playerName].bestPrecision = game.bestPrecision[playerName];
                                     }
 
-                                    if (calculatePrecision(this.players[playerName].worstPrecision) > calculatePrecision(games[i].worstPrecision[playerName])) {
-                                        this.players[playerName].worstPrecision = games[i].worstPrecision[playerName];
+                                    if (calculatePrecision(this.players[playerName].worstPrecision) > calculatePrecision(game.worstPrecision[playerName])) {
+                                        this.players[playerName].worstPrecision = game.worstPrecision[playerName];
                                     }
                                 }
 
-                                this.players[playerName].games.push(games[i].title);
+                                this.players[playerName].games.push(game.title);
 
-                                for (var z=0; z<games[i].winners.length; z++) {
-                                    if (games[i].winners[z] === playerName) {
-                                        this.players[playerName].winner.push(games[i].title)
+                                for (var z=0; z<game.winners.length; z++) {
+                                    if (game.winners[z] === playerName) {
+                                        this.players[playerName].winner.push(game.title)
                                     }
 
                                 }
-                            }
+                            }, this);
                         }
-                    }
+                    }, this);
                 };
 
                 this.updateStatistics();

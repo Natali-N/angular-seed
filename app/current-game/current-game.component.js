@@ -10,6 +10,7 @@
 // @todo angular validation
 // @todo show notification if localstorage is disabled
 // @todo on games-info view fix styl issue
+// @todo what to dhow when info is empty
 angular.
     module('currentGame').
     component('currentGame', {

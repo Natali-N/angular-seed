@@ -72,6 +72,10 @@ h2 {
     position: relative;
 }
 
+.disabled .game-area-disable {
+    display: block;
+}
+
 .game-area-disable {
     position: absolute;
     background: #000000;
@@ -80,6 +84,7 @@ h2 {
     bottom: 0;
     left: 0;
     right: 0;
+    display: none;
 }
 
 .game-info-container {

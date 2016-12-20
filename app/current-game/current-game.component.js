@@ -7,6 +7,8 @@
 // @todo tests
 // @todo ng-init vs local variable in controller
 // @todo delete console log
+// @todo save throw check
+// @todo angular validation
 angular.
     module('currentGame').
     component('currentGame', {
@@ -26,9 +28,7 @@ angular.
 
                 function prepareGameCreationView() {
                     self.currentGame.title = 'Game1';
-
                     self.currentGame.type = 301;
-
                     self.currentGame.players = [];
                     self.currentGame.players.push('Player' + (self.currentGame.players.length + 1));
                 }
@@ -48,24 +48,22 @@ angular.
                     this.currentGamePlayers = this.currentGame.players;
 
                     this.showCurrentGameInfo = true;
+                    this.disableGameArea = false;
                 };
 
-                this.addPlayer = function() {
-                    savePlayerInfo();
-
-                    if (!self.playerNameError) {
-                        this.currentGame.players.push('Player' + (this.currentGame.players.length + 1));
-                    }
-                };
-
-                function savePlayerInfo() {
-                    var lastName = self.currentGame.players[self.currentGame.players.length - 1];
+                function savePlayerInfo(currentGamePlayers) {
+                    var lastName = currentGamePlayers[currentGamePlayers.length - 1];
 
                     self.playerNameError = false;
 
-                    if (self.currentGame.players.length > 1) {
-                        for (var i=0; i<self.currentGame.players.length-1; i++) {
-                            if ( lastName === self.currentGame.players[i]) {
+                    if (!lastName) {
+                        self.playerNameError = true;
+                        return;
+                    }
+
+                    if (currentGamePlayers.length > 1) {
+                        for (var i=0; i<currentGamePlayers.length-1; i++) {
+                            if ( lastName === currentGamePlayers[i]) {
                                 self.playerNameError = true;
                                 return;
                             }
@@ -73,17 +71,29 @@ angular.
                     }
                 }
 
+                this.addPlayer = function() {
+                    var currentGamePlayers = this.currentGame.players;
+
+                    savePlayerInfo(currentGamePlayers);
+
+                    if (!this.playerNameError) {
+                        currentGamePlayers.push('Player' + (currentGamePlayers.length + 1));
+                    }
+                };
+
                 this.createNewGame = function() {
+                    var currentGame = this.currentGame;
+
                     this.gameTitleError = false;
 
-                    savePlayerInfo();
+                    savePlayerInfo(currentGame.players);
 
-                    if (this.currentGame.title) {
-                        for (var i=0; i<games.length; i++) {
-                            if (this.currentGame.title === games[i].title) {
-                                this.gameTitleError = true;
+                    if (currentGame.title) {
+                        games.forEach(function(item, i, arr) {
+                            if (currentGame.title === item.title) {
+                                self.gameTitleError = true;
                             }
-                        }
+                        });
 
                     } else {
                         this.gameTitleError = true;
@@ -91,16 +101,16 @@ angular.
 
                     if (!this.playerNameError && !this.gameTitleError) {
                         var gameObj = {
-                            title: this.currentGame.title,
-                            type: this.currentGame.type,
-                            players: this.currentGame.players,
+                            title: currentGame.title,
+                            type: currentGame.type,
+                            players: currentGame.players,
                             remainder: {},
                             bestThrow: {},
                             worstThrow: {},
                             bestPrecision: {},
                             worstPrecision: {},
                             pointers: {
-                                playerPointer: this.currentGame.players[0],
+                                playerPointer: currentGame.players[0],
                                 throwPointer: 0,
                                 turnPointer: 0
                             },
@@ -108,25 +118,24 @@ angular.
                             status: 0
                         };
 
-                        for (var k=0; k<this.currentGame.players.length; k++) {
-                            var playerName = this.currentGame.players[k];
-                            gameObj[playerName] = [ [] ];
-                            gameObj.remainder[playerName] = 301;
-                            gameObj.bestThrow[playerName] = 0;
-                            gameObj.worstThrow[playerName] = 51;
-                            gameObj.bestPrecision[playerName] = [];
-                            gameObj.worstPrecision[playerName] = [];
-                        }
+                        currentGame.players.forEach(function(player, i, arr) {
+                            gameObj[player] = [ [] ];
+                            gameObj.remainder[player] = currentGame.type;
+                            gameObj.bestThrow[player] = 0;
+                            gameObj.worstThrow[player] = 51;
+                            gameObj.bestPrecision[player] = [];
+                            gameObj.worstPrecision[player] = [];
+                        });
 
                         GamesService.set(
-                            this.currentGame.title,
+                            currentGame.title,
                             gameObj
                         );
 
-                        this.currentGame = GamesService.get(this.currentGame.title);
-                        this.currentGamePlayers = this.currentGame.players;
-
+                        this.currentGame = GamesService.get(currentGame.title);
+                        this.currentGamePlayers = currentGame.players;
                         this.showCurrentGameInfo = true;
+                        this.disableGameArea = false;
                     }
                 };
 
@@ -181,7 +190,6 @@ angular.
                 }
 
                 function updatePrecision() {
-
                     var completeTurn = self.currentGame[self.currentGame.pointers.playerPointer][self.currentGame.pointers.turnPointer],
                         bestPrecision = self.currentGame.bestPrecision[self.currentGame.pointers.playerPointer],
                         worstPrecision = self.currentGame.worstPrecision[self.currentGame.pointers.playerPointer];

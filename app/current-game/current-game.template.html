@@ -1,5 +1,5 @@
 <h1>Current game</h1>
-<div class="game-container">
+<div class="game-container" ng-class="$ctrl.disableGameArea ? 'disabled' : ''">
     <game-area></game-area>
     <div class="game-info-container" >
         <div ng-show="$ctrl.unfinishedGame && !$ctrl.showCurrentGameInfo">
@@ -20,7 +20,7 @@
                         <input type="text" ng-model="$ctrl.currentGame.title">
                     </label>
                     <div class="error" ng-show="$ctrl.gameTitleError">
-                        Game with such title is already exist
+                        Please provide a valid game title
                     </div>
                 </div>
                 <div class="form-cell">
@@ -44,7 +44,7 @@
             <button class="add-player" ng-click="$ctrl.addPlayer()">Add a player</button>
             <button class="create-game" ng-click="$ctrl.createNewGame()">Create game</button>
             <div class="error" ng-show="$ctrl.playerNameError">
-                Player with such name already exists
+                Please provide a valid name
             </div>
         </div>
         <div ng-show="$ctrl.showCurrentGameInfo" class="game-info">

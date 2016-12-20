@@ -7,15 +7,14 @@ angular.
         require: {
             'parent' : '^currentGame'
         },
-        controller: ['GamesService',
-            function CurrentGameController(GamesService, $element) {
+        controller: [
+            function CurrentGameController() {
 
                 this.showRules = false;
 
-                var self = this;
-
-                var canvas = document.getElementById('canvas');
-                var ctx = canvas.getContext('2d');
+                var self = this,
+                    canvas = document.getElementById('canvas'),
+                    ctx = canvas.getContext('2d');
 
                 ctx.fillStyle = 'beige';
                 ctx.fillRect(0,0,500,500);
@@ -24,12 +23,10 @@ angular.
 
                 var canvasPositionLeft = canvas.getBoundingClientRect().left + pageXOffset,
                     canvasPositionTop = canvas.getBoundingClientRect().top + pageYOffset,
-                    dartsRadius = 200,
-                    sectorsAmount = 20,
                     circleCenterAreasAmount = 2,
                     sectorsLengthBreakPointsData = [
-                        {breakPoint: 10, index: 50}, //add 50
-                        {breakPoint: 20, index: 25}, //add 25
+                        {breakPoint: 10, index: 50},
+                        {breakPoint: 20, index: 25},
                         {breakPoint: 90, index: 1},
                         {breakPoint: 100, index: 3},
                         {breakPoint: 190, index: 1},
@@ -67,7 +64,7 @@ angular.
                     ];
 
                 //creating game area
-                for (var i=0; i<sectorsAmount; i++) {
+                sectorsPointsData.forEach(function(item, i, arr) {
                     var angle = prevAngle + sectorStandardAngle;
 
                     for (var k=sectorsLengthBreakPointsData.length - 1; k>=circleCenterAreasAmount; k--) {
@@ -85,12 +82,11 @@ angular.
                         ctx.lineTo(250,250);
 
                         ctx.fill();
-
                         ctx.stroke();
                     }
 
                     prevAngle = angle;
-                }
+                });
 
                 //creating central circle areas
                 for (var j=circleCenterAreasAmount - 1; j>=0; j--) {
@@ -140,7 +136,6 @@ angular.
                 this.calculatePoints = function(event) {
                     var clickPositionLeft = event.pageX - canvasPositionLeft,
                         clickPositionTop = event.pageY - canvasPositionTop,
-
                         index = 0,
                         basePoint = 0,
                         totalPoints = 0,
@@ -170,7 +165,6 @@ angular.
                     }
 
                     console.log(totalPoints);
-                    console.log(self.parent.currentGame);
 
                     self.parent.saveThrow(totalPoints, index);
                 };

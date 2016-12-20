@@ -5,25 +5,24 @@
 // @todo game type
 // @todo перебор массива
 // @todo tests
+// @todo ng-init vs local variable in controller
+// @todo delete console log
 angular.
     module('currentGame').
     component('currentGame', {
         templateUrl: 'current-game/current-game.template.html',
-        require: {
-            'parent' : '^gamesInfo'
-        },
         controller: ['GamesService',
             function CurrentGameController(GamesService) {
-                //где лучше объ€вл€ть переменную здесь или через ng-init
 
-                var self = this;
-                this.games = [];
+                var self = this,
+                    games = [];
                 this.unfinishedGame = false;
                 this.showCurrentGameInfo = false;
                 this.gameTitleError = false;
                 this.playerNameError = false;
                 this.currentGame = {};
                 this.gameOver = false;
+                this.disableGameArea = true;
 
                 function prepareGameCreationView() {
                     self.currentGame.title = 'Game1';
@@ -37,7 +36,7 @@ angular.
                 this.deleteUnfinished = function () {
                     GamesService.remove(this.unfinishedGameTitle);
                     this.unfinishedGameTitle = '';
-                    this.games = GamesService.getAll();
+                    games = GamesService.getAll();
 
                     prepareGameCreationView();
 
@@ -80,8 +79,8 @@ angular.
                     savePlayerInfo();
 
                     if (this.currentGame.title) {
-                        for (var i=0; i<this.games.length; i++) {
-                            if (this.currentGame.title === this.games[i].title) {
+                        for (var i=0; i<games.length; i++) {
+                            if (this.currentGame.title === games[i].title) {
                                 this.gameTitleError = true;
                             }
                         }
@@ -142,7 +141,6 @@ angular.
                             if(self.currentGame.winners.length) {
                                 self.currentGame.status = 1;
                                 self.gameOver = true;
-                                self.parent.updateStatistics();
                                 return;
                             }
 
@@ -261,7 +259,7 @@ angular.
                         this.currentGame
                     );
 
-                    this.games = GamesService.getAll();
+                    games = GamesService.getAll();
                 };
 
                 this.addGame = function() {
@@ -269,12 +267,12 @@ angular.
                     this.showCurrentGameInfo = false;
                 };
 
-                this.games = GamesService.getAll();
+                games = GamesService.getAll();
 
-                if (this.games.length) {
-                    for (var i=this.games.length - 1; i>=0; i--) {
-                        if (this.games[i].status === 0) {
-                            this.unfinishedGameTitle = this.games[i].title;
+                if (games.length) {
+                    for (var i=games.length - 1; i>=0; i--) {
+                        if (games[i].status === 0) {
+                            this.unfinishedGameTitle = games[i].title;
                             this.unfinishedGame = true;
                             return;
                         }

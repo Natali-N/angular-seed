@@ -68,6 +68,20 @@ h2 {
     padding-right: 20px;
 }
 
+.game-area {
+    position: relative;
+}
+
+.game-area-disable {
+    position: absolute;
+    background: #000000;
+    opacity: 0.8;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
 .game-info-container {
     padding: 0 10px;
 }
@@ -100,7 +114,6 @@ h2 {
     width: 100%;
     box-sizing: border-box;
 }
-
 
 table td,
 table th {

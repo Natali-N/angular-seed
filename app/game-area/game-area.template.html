@@ -1,5 +1,8 @@
 <div class="game-area-container">
-    <canvas width="500" height="500" id="canvas" ng-click="$ctrl.calculatePoints($event)"></canvas>
+    <div class="game-area">
+        <canvas width="500" height="500" id="canvas" ng-click="$ctrl.calculatePoints($event)"></canvas>
+        <div class="game-area-disable" ng-hide="$ctrl.disableGameArea"></div>
+    </div>
     <div class="game-rules-container">
         <span ng-click="$ctrl.showRules = !$ctrl.showRules" class="game-rules-toggle">
             <span ng-hide="$ctrl.showRules">Show</span><span ng-show="$ctrl.showRules">Hide</span> game rules

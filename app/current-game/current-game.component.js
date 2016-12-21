@@ -1,6 +1,5 @@
 'use strict';
 // @todo tests
-// @todo ng-init vs local variable in controller
 angular.
     module('currentGame').
     component('currentGame', {

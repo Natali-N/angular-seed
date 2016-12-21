@@ -20,9 +20,7 @@ angular.
                 ctx.strokeStyle = 'black';
                 ctx.font = 'italic '+18+'px Arial ';
 
-                var canvasPositionLeft = canvas.getBoundingClientRect().left + pageXOffset,
-                    canvasPositionTop = canvas.getBoundingClientRect().top + pageYOffset,
-                    circleCenterAreasAmount = 2,
+                var circleCenterAreasAmount = 2,
                     sectorsLengthBreakPointsData = [
                         {breakPoint: 10, index: 50},
                         {breakPoint: 20, index: 25},
@@ -133,8 +131,8 @@ angular.
                 }
 
                 this.calculatePoints = function(event) {
-                    var clickPositionLeft = event.pageX - canvasPositionLeft,
-                        clickPositionTop = event.pageY - canvasPositionTop,
+                    var clickPositionLeft = event.pageX - canvas.getBoundingClientRect().left + pageXOffset,
+                        clickPositionTop = event.pageY - canvas.getBoundingClientRect().top + pageYOffset,
                         index = 0,
                         basePoint = 0,
                         totalPoints = 0,

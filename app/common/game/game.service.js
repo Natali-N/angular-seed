@@ -5,7 +5,11 @@ angular.
     factory('GamesService', ['$window',
         function($window) {
 
-            var storage = $window.localStorage;
+            if ('localStorage' in $window && $window['localStorage'] !== null) {
+                var storage = $window.localStorage;
+            } else {
+                alert('Please update your browser');
+            }
 
             function toString(value) {
                 return JSON.stringify(value);

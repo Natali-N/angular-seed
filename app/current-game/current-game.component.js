@@ -1,10 +1,8 @@
 'use strict';
-// @todo switches between screens (save game)
 // @todo game type
 // @todo tests
 // @todo ng-init vs local variable in controller
 // @todo angular validation
-// @todo show notification if localstorage is disabled
 // @todo on games-info view fix styl issue
 angular.
     module('currentGame').

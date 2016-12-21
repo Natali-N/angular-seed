@@ -16,7 +16,11 @@ angular.
                 this.updateStatistics = function() {
                     var games = GamesService.getAll();
 
-                    if (!games.length) {
+                    function isFinished(game) {
+                        return game.status > 0;
+                    }
+
+                    if (!games.some(isFinished)) {
                         this.gameStatistics = true;
                         return;
                     }

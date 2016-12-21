@@ -3,7 +3,6 @@
 // @todo tests
 // @todo ng-init vs local variable in controller
 // @todo angular validation
-// @todo on games-info view fix styl issue
 angular.
     module('currentGame').
     component('currentGame', {

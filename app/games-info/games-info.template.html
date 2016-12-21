@@ -13,8 +13,16 @@
         </tr>
         <tr ng-repeat="player in $ctrl.players">
             <td>{{ player.name }}</td>
-            <td>{{ player.games }}</td>
-            <td>{{ player.winner }}</td>
+            <td>
+                <span ng-repeat="game in player.games">
+                    {{ game }}
+                </span>
+            </td>
+            <td>
+                <span ng-repeat="winner in player.winner">
+                    {{ winner }}
+                </span>
+            </td>
             <td>{{ player.bestThrow }}</td>
             <td>{{ player.worstThrow }}</td>
             <td>{{ player.bestPrecision }}</td>

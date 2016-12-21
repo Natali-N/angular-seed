@@ -26,7 +26,7 @@
                 <div class="form-cell">
                     <label>
                         Game type
-                        <input type="text" disabled ng-model="$ctrl.currentGame.type">
+                        <select ng-model="$ctrl.selectedType" ng-options="type for type in $ctrl.gameTypes"></select>
                     </label>
                 </div>
             </div>

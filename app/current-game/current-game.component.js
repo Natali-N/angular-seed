@@ -1,5 +1,4 @@
 'use strict';
-// @todo game type
 // @todo tests
 // @todo ng-init vs local variable in controller
 // @todo angular validation
@@ -19,10 +18,12 @@ angular.
                 this.currentGame = {};
                 this.gameOver = false;
                 this.disableGameArea = true;
+                this.gameTypes = [301,501];
+                this.selectedType = 301;
 
                 function prepareGameCreationView() {
                     self.currentGame.title = 'Game1';
-                    self.currentGame.type = 301;
+                    self.currentGame.type = self.selectedType;
                     self.currentGame.players = [];
                     self.currentGame.players.push('Player' + (self.currentGame.players.length + 1));
                 }
@@ -96,7 +97,7 @@ angular.
                     if (!this.playerNameError && !this.gameTitleError) {
                         var gameObj = {
                             title: currentGame.title,
-                            type: currentGame.type,
+                            type: this.selectedType,
                             players: currentGame.players,
                             remainder: {},
                             bestThrow: {},
@@ -114,12 +115,12 @@ angular.
 
                         currentGame.players.forEach(function(player) {
                             gameObj[player] = [ [] ];
-                            gameObj.remainder[player] = currentGame.type;
+                            gameObj.remainder[player] = gameObj.type;
                             gameObj.bestThrow[player] = 0;
                             gameObj.worstThrow[player] = 51;
                             gameObj.bestPrecision[player] = [];
                             gameObj.worstPrecision[player] = [];
-                        });
+                        }, this);
 
                         GamesService.set(
                             currentGame.title,
